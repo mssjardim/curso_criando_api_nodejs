@@ -2,9 +2,16 @@
 
 const express = require('express')
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
+
+const env = require('../.env')
 
 const app = express()
 const router = express.Router()
+
+// Connect to database
+mongoose.connect('mongodb://' + env.db.user + ':' + env.db.password + '@ds157873.mlab.com:57873/ndstr')
+
 
 // Load routes
 const indexRoute = require('./routes/index-route')
