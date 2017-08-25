@@ -10,8 +10,7 @@ const app = express()
 const router = express.Router()
 
 // Connect to database
-mongoose.connect('mongodb://' + env.db.user + ':' + env.db.password + '@ds157873.mlab.com:57873/ndstr')
-
+mongoose.connect(env.mongodb.uri)
 
 // Load routes
 const indexRoute = require('./routes/index-route')
