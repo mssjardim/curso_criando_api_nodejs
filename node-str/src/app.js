@@ -12,6 +12,9 @@ const router = express.Router()
 // Connect to database
 mongoose.connect(env.mongodb.uri)
 
+// Load models
+const Product = require('./models/product')
+
 // Load routes
 const indexRoute = require('./routes/index-route')
 const productRoute = require('./routes/product-route')

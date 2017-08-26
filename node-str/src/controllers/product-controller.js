@@ -1,7 +1,20 @@
 'use strict'
+const mongoose = require('mongoose')
+const Product = mongoose.model('Product')
 
 exports.post = (req, res, next) => {
-    res.status(201).send(req.body)
+    let product = new Product(req.body)
+    product.save()
+        .then(x => {
+            res.status(201).send({
+                message: 'Product created successfully'
+            });
+        }).catch(e => {
+            res.status(400).send({
+                message: 'Failed to create product',
+                data: e
+            });
+        });
 }
 
 exports.put = (req, res, next) => {
