@@ -21,6 +21,17 @@ ValidationContract.prototype.hasMaxLen = (value, max, message, componentName = "
         errors.push({ component: componentName, message: message })
 }
 
+ValidationContract.prototype.isFixedLen = (value, len, message, componentName = "") => {
+    if (value.length != len)
+        errors.push({ component: componentName, message: message })
+}
+
+ValidationContract.prototype.isEmail = (value, message, componentName = "") => {
+    var reg = new RegExp(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
+    if (!reg.test(value))
+        errors.push({ component: componentName, message: message })
+}
+
 ValidationContract.prototype.errors = () => {
     return errors
 }
