@@ -14,6 +14,8 @@ mongoose.connect(env.mongodb.uri)
 
 // Load models
 const Product = require('./models/product')
+const Customer = require('./models/customer')
+const Order = require('./models/order')
 
 // Load routes
 const indexRoute = require('./routes/index-route')
