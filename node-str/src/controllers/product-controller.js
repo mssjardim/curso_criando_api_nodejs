@@ -5,7 +5,7 @@ const repository = require('../repositories/product-repository')
 
 exports.get = (req, res, next) => {
     repository
-        .get()    
+        .get()
         .then(data => {
             res.status(200).send(data)
         }).catch(e => {
@@ -24,7 +24,7 @@ exports.getBySlug = (req, res, next) => {
 }
 
 exports.getById = (req, res, next) => {
-   repository
+    repository
         .getById(req.params.id)
         .then(data => {
             res.status(200).send(data)
