@@ -2,6 +2,7 @@
 
 const ValidationContract = require('../validators/fluent-validator')
 const repository = require('../repositories/product-repository')
+const guid = require('guid')
 
 exports.get = async (req, res, next) => {
     try {
@@ -57,8 +58,23 @@ exports.post = async (req, res, next) => {
         return;
     }
 
+    // prepair image
+    let rawdata = req.body.image
+    let matches = rawdata.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
+    let type = matches[1]
+    let filename = guid.raw().toString() + "." + type.toString().split("/")[1]
+    // let buffer = new Buffer(matches[2], 'base64')
+    
     try {
-        await repository.create(req.body)
+        await repository.create({
+            title: req.body.title,
+            slug: req.body.slug,
+            description: req.body.description,
+            price: req.body.price,
+            active: true,
+            tags: req.body.tags,
+            image: { filename : filename, fileData: rawdata }
+        })
         res.status(201).send({
             message: 'Product created successfully'
         })
