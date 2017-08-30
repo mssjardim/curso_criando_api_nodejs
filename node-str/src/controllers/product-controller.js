@@ -3,7 +3,7 @@
 const ValidationContract = require('../validators/fluent-validator')
 const repository = require('../repositories/product-repository')
 
-exports.get = async(req, res, next) => {
+exports.get = async (req, res, next) => {
     try {
         const data = await repository.get()
         res.status(200).send(data)
@@ -12,10 +12,9 @@ exports.get = async(req, res, next) => {
             message: 'Falha ao processar requisição'
         })
     }
-
 }
 
-exports.getBySlug = async(req, res, next) => {
+exports.getBySlug = async (req, res, next) => {
     try {
         const data = await repository.getBySlug(req.params.slug)
         res.status(200).send(data)
@@ -26,7 +25,7 @@ exports.getBySlug = async(req, res, next) => {
     }
 }
 
-exports.getById = async(req, res, next) => {
+exports.getById = async (req, res, next) => {
     try {
         const data = await repository.getById(req.params.id)
         res.status(200).send(data)
@@ -37,7 +36,7 @@ exports.getById = async(req, res, next) => {
     }
 }
 
-exports.getByTag = async(req, res, next) => {
+exports.getByTag = async (req, res, next) => {
     try {
         const data = await repository.getByTag(req.params.tag)
         res.status(200).send(data)
@@ -48,7 +47,7 @@ exports.getByTag = async(req, res, next) => {
     }
 }
 
-exports.post = async(req, res, next) => {
+exports.post = async (req, res, next) => {
 
     let contract = new ValidationContract()
     contract.hasMinLen(req.body.title, 3, "Título deve conter no mínimo 3 caracteres", "Título")
@@ -71,7 +70,7 @@ exports.post = async(req, res, next) => {
     }
 }
 
-exports.put = async(req, res, next) => {
+exports.put = async (req, res, next) => {
     try {
         await repository.update(req.params.id, req.body)
         res.status(200).send({
@@ -85,7 +84,7 @@ exports.put = async(req, res, next) => {
     }
 }
 
-exports.delete = async(req, res, next) => {
+exports.delete = async (req, res, next) => {
     try {
         await repository.delete(req.body.id)
         res.status(200).send({
