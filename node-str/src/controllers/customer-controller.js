@@ -5,6 +5,8 @@ const repository = require('../repositories/customer-repository')
 const md5 = require('md5')
 const env = require('../../.env')
 
+const emailService = require('../services/email-service')
+
 exports.post = async (req, res, next) => {
 
     let contract = new ValidationContract()
@@ -23,6 +25,15 @@ exports.post = async (req, res, next) => {
             email: req.body.email,
             password: md5(req.body.password + env.SALT_KEY)
         })
+
+        // send email
+        let templateEmail = "Olá, <strong>{0}</strong>, seja bem vindo à Node Store"
+        emailService.send(
+            req.body.email, 
+            'Bem vindo ao Node Store',
+            templateEmail.replace('{0}', req.body.name)
+        )
+
         res.status(201).send({
             message: 'Customer created successfully'
         })
