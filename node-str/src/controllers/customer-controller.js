@@ -51,7 +51,7 @@ exports.authenticate = async(req, res, next) => {
             email: req.body.email,
             password: md5(req.body.password + env.SALT_KEY)
         })
-        
+
         if (!customer) {
             res.status(404).send({
                 message: 'User or password not valid'
@@ -67,6 +67,42 @@ exports.authenticate = async(req, res, next) => {
 
         res.status(201).send({
             token: token,
+            data: {
+                email: customer.email,
+                name: customer.name
+            }
+        })
+
+    } catch (error) {
+        res.status(500).send({
+            message: 'Failed to aunthenticated',
+            data: error
+        })
+    }
+}
+
+exports.refreshToken = async(req, res, next) => {
+    try {
+        const token = req.body.token || req.query.token || req.headers['x-access-token']
+        const data = await authService.decodeToken(token)
+
+        const customer = await repository.getById(data.id)
+
+        if (!customer) {
+            res.status(404).send({
+                message: 'Customer not found'
+            })
+            return;
+        }
+
+        const tokenData = await authService.generateToken({
+            id: customer._id,
+            email: customer.email,
+            name: customer.name
+        })
+
+        res.status(201).send({
+            token: tokenData,
             data: {
                 email: customer.email,
                 name: customer.name
