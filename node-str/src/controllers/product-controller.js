@@ -3,6 +3,7 @@
 const ValidationContract = require('../validators/fluent-validator')
 const repository = require('../repositories/product-repository')
 const guid = require('guid')
+const authService = require('../services/auth-service')
 
 exports.get = async (req, res, next) => {
     try {
